@@ -14,6 +14,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     User findByUsername(String userName);
 
+
     @Transactional
     @Modifying
     @Query("UPDATE User user " +

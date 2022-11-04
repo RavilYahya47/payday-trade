@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Service
@@ -48,6 +49,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    @Override
+    public User depositCash(String username,BigDecimal amount) {
+        User user = userRepository.findByUsername(username);
+        user.setBalance(user.getBalance().add(amount));
+        User savedUser = userRepository.save(user);
+        return savedUser;
     }
 
 
