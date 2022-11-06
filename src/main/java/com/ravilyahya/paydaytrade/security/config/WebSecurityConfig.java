@@ -4,6 +4,7 @@ import com.ravilyahya.paydaytrade.security.JwtAuthenticationEntryPoint;
 import com.ravilyahya.paydaytrade.security.JwtAuthenticationFilter;
 import com.ravilyahya.paydaytrade.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,14 +33,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .authorizeRequests()
                 .antMatchers("/api/login/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(unAuthorizedHandler)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest().permitAll();
 
-        http
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//                .authenticated()
+//                .and()
+//                .exceptionHandling().authenticationEntryPoint(unAuthorizedHandler)
+//                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        http
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -52,6 +55,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 
     @Bean

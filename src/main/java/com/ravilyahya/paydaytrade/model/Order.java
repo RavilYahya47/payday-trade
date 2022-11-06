@@ -25,7 +25,7 @@ public class Order {
     private User user;
     private OrderType orderType;
     private String stockSymbol;
-    private Double amount;
+    private BigDecimal amount;
     private BigDecimal targetPrice;
     private Boolean isExecuted=false;
     private Boolean isActive=true;

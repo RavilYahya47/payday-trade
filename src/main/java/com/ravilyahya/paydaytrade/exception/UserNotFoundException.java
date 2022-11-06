@@ -1,6 +1,6 @@
 package com.ravilyahya.paydaytrade.exception;
 
-public class UserNotFoundException extends Exception{
+public class UserNotFoundException extends RuntimeException{
 
     public UserNotFoundException() {
         super("User with this Username not found in Database!");

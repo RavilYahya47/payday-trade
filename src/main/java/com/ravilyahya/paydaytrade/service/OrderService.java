@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface OrderService {
 
-    void placeBuyOrder(String username, OrderType orderType, String stockSymbol, Double amount, BigDecimal targetPrice) throws Exception;
-    void placeSellOrder(String username, OrderType orderType, String stockSymbol, Double amount, BigDecimal targetPrice) throws Exception;
+    void placeBuyOrder(String username,  String stockSymbol, BigDecimal amount, BigDecimal targetPrice) throws Exception;
+    void placeSellOrder(String username,  String stockSymbol, BigDecimal amount, BigDecimal targetPrice) throws Exception;
     List<Order> listAllOrders(String username) throws Exception;
 
 
