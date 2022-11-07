@@ -1,6 +1,6 @@
 package com.ravilyahya.paydaytrade.service.impl;
 
-import com.ravilyahya.paydaytrade.model.stock.StockWrapper;
+import com.ravilyahya.paydaytrade.model.StockWrapper;
 import com.ravilyahya.paydaytrade.service.StockService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

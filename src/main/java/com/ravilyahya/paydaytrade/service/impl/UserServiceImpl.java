@@ -8,6 +8,7 @@ import com.ravilyahya.paydaytrade.model.User;
 import com.ravilyahya.paydaytrade.model.UserRole;
 import com.ravilyahya.paydaytrade.repository.UserRepository;
 import com.ravilyahya.paydaytrade.repository.RoleRepository;
+import com.ravilyahya.paydaytrade.service.EmailSenderService;
 import com.ravilyahya.paydaytrade.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +30,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final EmailSenderService emailSenderService;
 
-    public RespUser createNormalUser(ReqSingUpUser reqSingUpUser) {
+    public RespUser createNormalUser(ReqSingUpUser reqSingUpUser) throws MessagingException {
         User user = userRepository.findByUsername(reqSingUpUser.getUsername());
 
         if (user != null) {
-            System.out.println("User is already exists!");
-            throw new UserFoundException();
+            String message=String.format("Username: %s has been taken ! Try to get another username!",user.getUsername());
+            log.warn(message);
+            throw new UserFoundException(message);
         }
 
         user = new User();
@@ -41,6 +46,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(reqSingUpUser.getUsername());
         user.setEmail(reqSingUpUser.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(reqSingUpUser.getPassword()));
+        user.setActivationCode(String.valueOf(UUID.randomUUID()));
 
         Role role = new Role();
         role.setId(2L);
@@ -53,6 +59,9 @@ public class UserServiceImpl implements UserService {
         user.getUserRoles().add(userRole);
 
         user = userRepository.save(user);
+        emailSenderService.sendActivationEmail(user);
+        log.info("User registered: " + user.getUsername());
+        log.info(String.format("Activation email sent to %s for user: %s",user.getEmail(),user.getUsername()));
 
         return modelMapper.map(user, RespUser.class);
     }

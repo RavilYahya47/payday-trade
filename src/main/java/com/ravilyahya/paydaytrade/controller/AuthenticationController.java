@@ -1,54 +1,29 @@
 package com.ravilyahya.paydaytrade.controller;
 
-import com.ravilyahya.paydaytrade.exception.UserNotFoundException;
-import com.ravilyahya.paydaytrade.model.jwt.JwtRequest;
-import com.ravilyahya.paydaytrade.model.jwt.JwtResponse;
-import com.ravilyahya.paydaytrade.security.JwtUtils;
-import com.ravilyahya.paydaytrade.service.impl.UserDetailsServiceImpl;
+import com.ravilyahya.paydaytrade.dao.request.ReqJwt;
+import com.ravilyahya.paydaytrade.dao.response.RespJwt;
+import com.ravilyahya.paydaytrade.service.impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsServiceImpl userDetailsService;
-    private final JwtUtils jwtUtils;
+    private final AuthenticationServiceImpl authenticationServiceImpl;
 
 
     @PostMapping("/api/login")
-    public ResponseEntity<?> login(@RequestBody JwtRequest jwtRequest) throws Exception {
-        try {
-            authenticate(jwtRequest.getUsername(),jwtRequest.getPassword());
-
-        }catch (UserNotFoundException exception){
-            throw new Exception("User not found!");
-        }
-
-        UserDetails user =  userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-        String token = jwtUtils.generateToken(user);
-
-        return ResponseEntity.ok(new JwtResponse(token));
-    }
-
-    private void authenticate(String username, String password) throws Exception {
-        System.out.println(username);
-        System.out.println(password);
-        try{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
-        }catch (DisabledException exception){
-            throw new Exception("User Disabled!");
-        }catch (BadCredentialsException exception){
-            throw new Exception("Invalid credentials: " + exception.getMessage());
-        }
+    public ResponseEntity<?> login(@RequestBody @Valid ReqJwt reqJwt) throws Exception {
+        ResponseEntity<RespJwt> response = authenticationServiceImpl.login(reqJwt);
+        log.info(String.valueOf(response));
+        return response;
     }
 }

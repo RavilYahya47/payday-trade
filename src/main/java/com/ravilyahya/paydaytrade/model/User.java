@@ -34,6 +34,7 @@ public class User implements UserDetails {
     private String password;
     private BigDecimal balance= BigDecimal.valueOf(0);
     private boolean isEnabled=false;
+    private String activationCode;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
     @JsonIgnore

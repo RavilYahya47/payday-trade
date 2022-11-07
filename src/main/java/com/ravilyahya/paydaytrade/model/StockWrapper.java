@@ -1,4 +1,4 @@
-package com.ravilyahya.paydaytrade.model.stock;
+package com.ravilyahya.paydaytrade.model;
 
 
 import lombok.AllArgsConstructor;

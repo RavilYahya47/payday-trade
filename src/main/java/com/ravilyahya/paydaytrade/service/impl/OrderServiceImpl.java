@@ -11,6 +11,7 @@ import com.ravilyahya.paydaytrade.service.OrderExecutionService;
 import com.ravilyahya.paydaytrade.service.OrderService;
 import com.ravilyahya.paydaytrade.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     private final UserService userService;
@@ -39,7 +41,10 @@ public class OrderServiceImpl implements OrderService {
         order.setAmount(respOrder.getAmount());
         order.setOrderType(OrderType.BUY);
 
+
         orderRepository.save(order);
+        log.info("User " + user.getUsername()+ " have placed BUY order");
+        log.info(order.toString());
 
         return orderExecutionService.processBuyOrder(order);
 
@@ -55,8 +60,10 @@ public class OrderServiceImpl implements OrderService {
         order.setStockSymbol(respOrder.getStockSymbol());
         order.setAmount(respOrder.getAmount());
         order.setOrderType(OrderType.SELL);
-
         orderRepository.save(order);
+
+        log.info("User " + user.getUsername()+ " have placed SELL order");
+        log.info(order.toString());
 
         return orderExecutionService.processSellOrder(order);
     }
