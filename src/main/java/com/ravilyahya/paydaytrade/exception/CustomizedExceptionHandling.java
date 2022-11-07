@@ -26,7 +26,7 @@ public class CustomizedExceptionHandling extends ResponseEntityExceptionHandler 
         ExceptionResponse response = new ExceptionResponse();
         response.setDateTime(LocalDateTime.now());
         response.setMessage("User with this Username is already exists! Try to get another username!");
-        ResponseEntity<Object> entity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        ResponseEntity<Object> entity = new ResponseEntity<>(response, HttpStatus.FOUND);
         return entity;
     }
 
@@ -43,7 +43,8 @@ public class CustomizedExceptionHandling extends ResponseEntityExceptionHandler 
     public ResponseEntity<Object> handleExceptions( OrderTargetPriceDoesntMatchException exception, WebRequest webRequest) {
         ExceptionResponse response = new ExceptionResponse();
         response.setDateTime(LocalDateTime.now());
-        response.setMessage("Target price criteria doesn't match with stock price!");
+        response.setMessage("Target price criteria doesn't match with stock price!\n"+
+                "Your order added to the order execution pool!");
         ResponseEntity<Object> entity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         return entity;
     }
