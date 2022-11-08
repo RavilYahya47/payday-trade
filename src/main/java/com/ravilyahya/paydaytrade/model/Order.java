@@ -25,8 +25,22 @@ public class Order {
     private User user;
     private OrderType orderType;
     private String stockSymbol;
-    private Double amount;
+    private BigDecimal amount;
     private BigDecimal targetPrice;
     private Boolean isExecuted=false;
     private Boolean isActive=true;
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", user=" + user +
+                ", orderType=" + orderType +
+                ", stockSymbol='" + stockSymbol + '\'' +
+                ", amount=" + amount +
+                ", targetPrice=" + targetPrice +
+                ", isExecuted=" + isExecuted +
+                ", isActive=" + isActive +
+                '}';
+    }
 }

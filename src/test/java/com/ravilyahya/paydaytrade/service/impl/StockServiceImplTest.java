@@ -1,6 +1,6 @@
 package com.ravilyahya.paydaytrade.service.impl;
 
-import com.ravilyahya.paydaytrade.model.stock.StockWrapper;
+import com.ravilyahya.paydaytrade.model.StockWrapper;
 import com.ravilyahya.paydaytrade.service.StockService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ class StockServiceImplTest {
 
     @Test
     void multipleStocks(){
-        final List<StockWrapper> stocks = stockService.findStocks(Arrays.asList("GOOG","AMZN","TSLA"));
+        final List<StockWrapper> stocks = stockService.findStocks();
         findPrices(stocks);
     }
 
