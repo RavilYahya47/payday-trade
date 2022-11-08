@@ -33,13 +33,13 @@ public class StockServiceImpl implements StockService {
         }
     }
 
-    public List<StockWrapper> findStocks(final List<String> tickers){
-        return tickers.stream().map(this::findStock).filter(Objects::nonNull).collect(Collectors.toList());
+    public List<StockWrapper> findStocks(){
+        return stockSymbols.stream().map(this::findStock).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override
     public ResponseEntity<List<RespStock>> getAllStocks() {
-        List<StockWrapper> stocks = findStocks(stockSymbols);
+        List<StockWrapper> stocks = findStocks();
         List<RespStock> responseList = new ArrayList<>();
 
         for(StockWrapper stock:stocks){

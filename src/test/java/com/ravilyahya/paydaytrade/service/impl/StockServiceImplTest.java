@@ -24,7 +24,7 @@ class StockServiceImplTest {
 
     @Test
     void multipleStocks(){
-        final List<StockWrapper> stocks = stockService.findStocks(Arrays.asList("GOOG","AMZN","TSLA"));
+        final List<StockWrapper> stocks = stockService.findStocks();
         findPrices(stocks);
     }
 

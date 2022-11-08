@@ -11,4 +11,7 @@ public interface OrderExecutionService {
 
     RespOrder processSellOrder(Order order) throws OrderTargetPriceDoesntMatchException;
 
+    void processAllWaitingBuyOrders();
+    void processAllWaitingSellOrders();
+
 }

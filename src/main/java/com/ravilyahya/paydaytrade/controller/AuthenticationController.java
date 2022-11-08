@@ -21,7 +21,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/api/login")
-    public ResponseEntity<?> login(@RequestBody @Valid ReqJwt reqJwt) throws Exception {
+    public ResponseEntity<RespJwt> login(@RequestBody @Valid ReqJwt reqJwt) throws Exception {
         ResponseEntity<RespJwt> response = authenticationServiceImpl.login(reqJwt);
         log.info(String.valueOf(response));
         return response;

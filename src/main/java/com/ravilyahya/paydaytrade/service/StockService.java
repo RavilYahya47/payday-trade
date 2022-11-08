@@ -11,7 +11,7 @@ import java.util.List;
 public interface StockService {
      StockWrapper findStock(String ticker);
      BigDecimal getPrice(final StockWrapper stockWrapper) throws IOException;
-     List<StockWrapper> findStocks(final List<String> tickers);
+     List<StockWrapper> findStocks();
 
      ResponseEntity<List<RespStock>> getAllStocks();
 }
